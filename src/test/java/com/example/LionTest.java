@@ -1,41 +1,23 @@
 package com.example;
 
 import junit.framework.TestCase;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnitRunner;
 
-@RunWith(Parameterized.class)
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
+
+@RunWith(MockitoJUnitRunner.class)
 public class LionTest extends TestCase {
     private static final String MALE = "Самец";
-    private static final String FEMALE = "Самка";
     private static final String UNSUPPORTED_SEX = "unsupported sex";
     private static final String TEXT_EXCEPTION = "Используйте допустимые значения пола животного - самей или самка";
     private Lion lion;
+    @Mock
     private Feline feline;
-    private String sex;
-    private boolean hasMane;
-
-    public LionTest(String sex, boolean hasMane) {
-        this.sex = sex;
-        this.hasMane = hasMane;
-    }
-
-    @Before
-    public void setUp() {
-        feline = Mockito.mock(Feline.class);
-    }
-
-    @Parameterized.Parameters
-    public static Object[][] getParameters() {
-        return new Object[][] {
-                {MALE, true},
-                {FEMALE, false},
-                {UNSUPPORTED_SEX, false}
-        };
-    }
 
     @Test
     public void testGetKittens() throws Exception {
@@ -46,14 +28,12 @@ public class LionTest extends TestCase {
     }
 
     @Test
-    public void testDoesHaveMane() {
-        try {
-            lion = new Lion(sex, feline);
-            boolean actual = lion.doesHaveMane();
-            assertEquals(hasMane, actual);
-        } catch (Exception e) {
-            assertEquals(TEXT_EXCEPTION, e.getMessage());
-        }
+    public void testDoesHaveManeException() {
+        Throwable throwable = catchThrowable(() -> {
+            lion = new Lion(UNSUPPORTED_SEX, feline);
+        });
+        assertThat(throwable).isInstanceOf(Exception.class);
+        assertThat(throwable.getMessage()).isEqualTo(TEXT_EXCEPTION);
     }
 
     @Test

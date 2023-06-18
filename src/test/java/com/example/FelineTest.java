@@ -14,6 +14,7 @@ import java.util.List;
 @RunWith(MockitoJUnitRunner.class)
 public class FelineTest extends TestCase {
     private final String expected = "Кошачьи";
+    private static final int EXPECTED_KITTENS_COUNT_FOR_MOCK = 1;
     private int kittensCount = 5;
 
     @Spy
@@ -37,10 +38,10 @@ public class FelineTest extends TestCase {
     @Test
     public void testGetKittens() {
         int actual = feline.getKittens();
-        Mockito.verify(feline).getKittens(1);
+        Mockito.verify(feline).getKittens(EXPECTED_KITTENS_COUNT_FOR_MOCK);
 
         assertEquals("Количество котят не соответствует ожидаемому",
-                1, actual);
+                EXPECTED_KITTENS_COUNT_FOR_MOCK, actual);
     }
 
     @Test
