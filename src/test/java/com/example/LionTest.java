@@ -32,8 +32,9 @@ public class LionTest extends TestCase {
         Throwable throwable = catchThrowable(() -> {
             lion = new Lion(UNSUPPORTED_SEX, feline);
         });
-        assertThat(throwable).isInstanceOf(Exception.class);
-        assertThat(throwable.getMessage()).isEqualTo(TEXT_EXCEPTION);
+        assertThat(throwable)
+                .isInstanceOf(Exception.class)
+                .hasMessage(TEXT_EXCEPTION);
     }
 
     @Test

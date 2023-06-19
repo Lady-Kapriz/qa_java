@@ -22,8 +22,9 @@ public class AnimalTest extends TestCase {
         Throwable throwable = catchThrowable(() -> {
             animal.getFood(UNSUPPORTED_ANIMAL_KIND);
         });
-        assertThat(throwable).isInstanceOf(Exception.class);
-        assertThat(throwable.getMessage()).isEqualTo(TEXT_EXCEPTION);
+        assertThat(throwable)
+                .isInstanceOf(Exception.class)
+                .hasMessage(TEXT_EXCEPTION);
     }
 
     @Test
